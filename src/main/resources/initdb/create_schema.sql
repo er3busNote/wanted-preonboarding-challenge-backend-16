@@ -1,7 +1,7 @@
 -- schema.sql
 CREATE TABLE IF NOT EXISTS `performance`
 (
-    `id`         BINARY(16) default (uuid_to_bin(uuid())) NOT NULL COMMENT '공연/전시 ID',
+    `id`         BINARY(16) DEFAULT UNHEX(REPLACE(UUID(), '-', '')) NOT NULL COMMENT '공연/전시 ID',
     `name`       varchar(255)                             NOT NULL COMMENT '공연/전시 이름',
     `price`      INT                                      NOT NULL COMMENT '가격',
     `round`      INT                                      NOT NULL COMMENT '회차',
