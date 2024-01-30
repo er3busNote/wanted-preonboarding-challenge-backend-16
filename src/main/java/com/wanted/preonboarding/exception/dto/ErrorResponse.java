@@ -1,4 +1,4 @@
-package com.wanted.preonboarding.ticket.exception.dto;
+package com.wanted.preonboarding.exception.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

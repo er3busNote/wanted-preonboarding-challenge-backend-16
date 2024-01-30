@@ -1,10 +1,9 @@
-package com.wanted.preonboarding.ticket.exception.presentation;
+package com.wanted.preonboarding.exception.application;
 
-import com.wanted.preonboarding.ticket.exception.dto.ErrorCode;
-import com.wanted.preonboarding.ticket.exception.dto.ErrorResponse;
+import com.wanted.preonboarding.exception.dto.ErrorCode;
+import com.wanted.preonboarding.exception.dto.ErrorResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Service

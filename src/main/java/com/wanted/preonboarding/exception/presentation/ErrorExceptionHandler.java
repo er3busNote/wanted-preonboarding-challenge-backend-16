@@ -1,19 +1,16 @@
-package com.wanted.preonboarding.ticket.exception.presentation;
+package com.wanted.preonboarding.exception.presentation;
 
-import com.wanted.preonboarding.ticket.exception.dto.ErrorCode;
-import com.wanted.preonboarding.ticket.exception.dto.ErrorResponse;
+import com.wanted.preonboarding.exception.application.ErrorHandler;
+import com.wanted.preonboarding.exception.dto.ErrorCode;
+import com.wanted.preonboarding.exception.dto.ErrorResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
