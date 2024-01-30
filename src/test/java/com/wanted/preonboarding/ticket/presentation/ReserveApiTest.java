@@ -22,7 +22,7 @@ public class ReserveApiTest extends BaseApiTest {
     private TicketSeller ticketSeller;
 
     @Test
-    @DisplayName("예매하기")
+    @DisplayName("예약하기 API 성공")
     public void reservation() throws Exception {
         PerformanceInfo performanceInfo = ticketSeller.getPerformanceInfoDetail("레베카");
         ReserveInfo reserveInfo = ReserveInfo.builder()
@@ -30,10 +30,10 @@ public class ReserveApiTest extends BaseApiTest {
                 .reservationName("유진호")
                 .reservationPhoneNumber("010-1234-1234")
                 .reservationStatus(performanceInfo.getIsReserve())
-                .amount(200000)
+                .amount(300000)
                 .round(1)
                 .line('A')
-                .seat(1)
+                .seat(4)
                 .build();
         mockMvc.perform(post("/reserve/")
                         .contentType(MediaType.APPLICATION_JSON)

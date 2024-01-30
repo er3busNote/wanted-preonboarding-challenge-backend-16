@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -32,6 +33,11 @@ public class TicketSeller {
         return PerformanceInfo.of(performanceRepository.findByName(name));
     }
 
+    public List<ReserveInfo> getReserveInfoDetail(String name, String phoneNumber) {
+        List<Reservation> reservations = reservationRepository.findByNameAndPhoneNumber(name, phoneNumber);
+        return reservations.stream().map(ReserveInfo::of).collect(Collectors.toList());
+    }
+
     public boolean reserve(ReserveInfo reserveInfo) {
         log.info("reserveInfo ID => {}", reserveInfo.getPerformanceId());
         Performance info = performanceRepository.findById(reserveInfo.getPerformanceId())
@@ -44,7 +50,6 @@ public class TicketSeller {
             // 2. 예매 진행
             reservationRepository.save(Reservation.of(reserveInfo));
             return true;
-
         } else {
             return false;
         }

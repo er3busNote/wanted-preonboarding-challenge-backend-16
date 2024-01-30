@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class QueryApiTest extends BaseApiTest {
 
     @Test
-    @DisplayName("모든 전시 목록 확인하기")
+    @DisplayName("공연/전시 정보 목록 API 성공")
     public void reservation() throws Exception {
         mockMvc.perform(get("/query/all/performance"))
                 .andDo(print())

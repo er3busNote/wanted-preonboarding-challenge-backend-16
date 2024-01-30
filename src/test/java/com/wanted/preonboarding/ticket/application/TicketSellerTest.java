@@ -2,7 +2,6 @@ package com.wanted.preonboarding.ticket.application;
 
 import com.wanted.preonboarding.ticket.domain.dto.PerformanceInfo;
 import com.wanted.preonboarding.ticket.domain.dto.ReserveInfo;
-import com.wanted.preonboarding.ticket.infrastructure.repository.PerformanceRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -17,23 +16,27 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TicketSellerTest {
     @Autowired
     private TicketSeller ticketSeller;
-    @Autowired
-    private PerformanceRepository performanceRepository;
 
     @Test
-    @DisplayName("예매 가능한 공연 및 전시정보 확인")
+    @DisplayName("공연/전시 정보 목록 조회 성공")
     public void getAllPerformanceInfoList() {
         System.out.println("RESULT => " + ticketSeller.getAllPerformanceInfoList());
     }
 
     @Test
-    @DisplayName("예매 가능한 공연 및 전시 상세정보 확인")
+    @DisplayName("공연/전시 정보 상세 조회 성공")
     public void getPerformanceInfoDetail() {
         System.out.println("RESULT => " + ticketSeller.getPerformanceInfoDetail("레베카"));
     }
 
     @Test
-    @DisplayName("예매하기")
+    @DisplayName("예약 조회 성공")
+    public void getReserveInfoDetail() {
+        System.out.println("RESULT => " + ticketSeller.getReserveInfoDetail("유진호", "010-1234-1234"));
+    }
+
+    @Test
+    @DisplayName("예약 성공")
     public void reserve() {
         PerformanceInfo performanceInfo = ticketSeller.getPerformanceInfoDetail("레베카");
         boolean result = ticketSeller.reserve(ReserveInfo.builder()
