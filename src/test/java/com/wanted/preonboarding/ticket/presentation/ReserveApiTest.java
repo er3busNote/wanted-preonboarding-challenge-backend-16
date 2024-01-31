@@ -30,7 +30,7 @@ public class ReserveApiTest extends BaseApiTest {
                 .reservationName("유진호")
                 .reservationPhoneNumber("010-1234-1234")
                 .reservationStatus(performanceInfo.getIsReserve())
-                .amount(300000)
+                .amount(110000)
                 .round(1)
                 .line('A')
                 .seat(4)

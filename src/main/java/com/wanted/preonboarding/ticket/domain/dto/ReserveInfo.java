@@ -48,4 +48,11 @@ public class ReserveInfo {
                 .seat(entity.getSeat())
                 .build();
     }
+
+    public void setAmount(long amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException(Long.toString(amount));
+        }
+        this.amount = amount;
+    }
 }

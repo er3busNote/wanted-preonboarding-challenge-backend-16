@@ -25,6 +25,12 @@ public class ErrorExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.BALANCE_NOT_EXIST, e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
         final ErrorResponse response = ErrorResponse.of(ErrorCode.DISPLAY_NOT_FOUND);
