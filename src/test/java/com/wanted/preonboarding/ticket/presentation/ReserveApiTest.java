@@ -11,6 +11,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
+import java.util.List;
+import java.util.UUID;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,9 +26,20 @@ public class ReserveApiTest extends BaseApiTest {
     private TicketSeller ticketSeller;
 
     @Test
+    @DisplayName("예약하기 조회 API 성공")
+    public void getReserveInfoDetail() throws Exception {
+        mockMvc.perform(get("/reserve/detail")
+                        .param("name", "유진호")
+                        .param("phoneNumber", "010-1234-1234"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
     @DisplayName("예약하기 API 성공")
     public void reservation() throws Exception {
-        PerformanceInfo performanceInfo = ticketSeller.getPerformanceInfoDetail("레베카");
+        List<PerformanceInfo> performanceInfos = ticketSeller.getAllPerformanceInfoList();
+        PerformanceInfo performanceInfo = performanceInfos.get(0);
         ReserveInfo reserveInfo = ReserveInfo.builder()
                 .performanceId(performanceInfo.getPerformanceId())
                 .reservationName("유진호")

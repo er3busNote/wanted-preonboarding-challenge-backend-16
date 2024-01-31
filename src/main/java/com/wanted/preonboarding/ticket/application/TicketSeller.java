@@ -1,5 +1,6 @@
 package com.wanted.preonboarding.ticket.application;
 
+import com.wanted.preonboarding.ticket.domain.dto.CustomerInfo;
 import com.wanted.preonboarding.ticket.domain.dto.PerformanceInfo;
 import com.wanted.preonboarding.ticket.domain.dto.ReserveInfo;
 import com.wanted.preonboarding.ticket.domain.entity.Performance;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,11 +31,14 @@ public class TicketSeller {
             .toList();
     }
 
-    public PerformanceInfo getPerformanceInfoDetail(String name) {
-        return PerformanceInfo.of(performanceRepository.findByName(name));
+    public PerformanceInfo getPerformanceInfoDetail(String uuid) {
+        return PerformanceInfo.of(performanceRepository.findById(UUID.fromString(uuid))
+                .orElseThrow(EntityNotFoundException::new));
     }
 
-    public List<ReserveInfo> getReserveInfoDetail(String name, String phoneNumber) {
+    public List<ReserveInfo> getReserveInfoDetail(CustomerInfo customerInfo) {
+        String name = customerInfo.getName();
+        String phoneNumber = customerInfo.getPhoneNumber();
         List<Reservation> reservations = reservationRepository.findByNameAndPhoneNumber(name, phoneNumber);
         return reservations.stream().map(ReserveInfo::of).collect(Collectors.toList());
     }

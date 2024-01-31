@@ -2,8 +2,8 @@ package com.wanted.preonboarding.ticket.presentation;
 
 import com.wanted.preonboarding.core.domain.response.ResponseHandler;
 import com.wanted.preonboarding.ticket.application.TicketSeller;
+import com.wanted.preonboarding.ticket.domain.dto.CustomerInfo;
 import com.wanted.preonboarding.ticket.domain.dto.ReserveInfo;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReserveController {
     private final TicketSeller ticketSeller;
+
+    @GetMapping("/detail")
+    public ResponseEntity<ResponseHandler<List<ReserveInfo>>> getReserveInfoDetail(@Valid CustomerInfo customerInfo) {
+        System.out.println("getReserveInfoDetail");
+        return ResponseEntity
+                .ok()
+                .body(ResponseHandler.<List<ReserveInfo>>builder()
+                        .message("Success")
+                        .statusCode(HttpStatus.OK)
+                        .data(ticketSeller.getReserveInfoDetail(customerInfo))
+                        .build()
+                );
+    }
 
     @PostMapping("/")
     public ResponseEntity<ResponseHandler<ReserveInfo>> reservation(@RequestBody @Valid ReserveInfo reserveInfo) {
