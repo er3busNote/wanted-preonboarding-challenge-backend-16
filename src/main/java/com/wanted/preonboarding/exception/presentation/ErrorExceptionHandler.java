@@ -1,47 +1,39 @@
 package com.wanted.preonboarding.exception.presentation;
 
-import com.wanted.preonboarding.exception.application.ErrorHandler;
 import com.wanted.preonboarding.exception.dto.ErrorCode;
 import com.wanted.preonboarding.exception.dto.ErrorResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class ErrorExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private final ErrorHandler errorHandler;
-
-//    @ExceptionHandler(BindException.class)
-//    public ResponseEntity<ErrorResponse> handleBindException(BindException e) {
-//        ErrorCode errorCode = ErrorCode.INVALID_PARAMETER;
-//        List<ErrorResponse.ValidationError> validationErrorList = e.getBindingResult()
-//                .getFieldErrors()
-//                .stream()
-//                .map(ErrorResponse.ValidationError::of)
-//                .collect(Collectors.toList());
-//        return ResponseEntity.status(errorCode.getStatus())
-//                .body(errorHandler.buildError(errorCode, validationErrorList));
-//    }
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, ex.getBindingResult());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
-        ErrorCode errorCode = ErrorCode.DISPLAY_NOT_FOUND;
-        return ResponseEntity.status(errorCode.getStatus())
-                .body(errorHandler.buildError(errorCode));
+    protected ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.DISPLAY_NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(DataIntegrityViolationException e) {
-        ErrorCode errorCode = ErrorCode.SEATS_SOLD_OUT;
-        return ResponseEntity.status(errorCode.getStatus())
-                .body(errorHandler.buildError(errorCode));
+    protected ResponseEntity<ErrorResponse> handleEntityNotFoundException(DataIntegrityViolationException e) {
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.SEATS_SOLD_OUT);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }
