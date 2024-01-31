@@ -44,16 +44,12 @@ public class TicketSeller {
     }
 
     public List<ReserveInfo> getReserveInfoDetail(CustomerInfo customerInfo) {
-        String name = customerInfo.getName();
-        String phoneNumber = customerInfo.getPhoneNumber();
-        List<Reservation> reservations = reservationRepository.findByNameAndPhoneNumber(name, phoneNumber);
+        List<Reservation> reservations = reservationRepository.findByNameAndPhoneNumber(customerInfo);
         return reservations.stream().map(ReserveInfo::of).collect(Collectors.toList());
     }
 
     private Optional<Customer> getCustomer(CustomerInfo customerInfo) {
-        String name = customerInfo.getName();
-        String phoneNumber = customerInfo.getPhoneNumber();
-        return customerRepository.findByNameAndPhoneNumber(name, phoneNumber);
+        return customerRepository.findByNameAndPhoneNumber(customerInfo);
     }
 
     private int getDiscount(Customer customer, int price) {

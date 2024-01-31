@@ -12,10 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,24 +36,36 @@ public class ReserveApiTest extends BaseApiTest {
     }
 
     @Test
+    @DisplayName("예약취소 API 성공")
+    public void reserveCancel() throws Exception {
+        mockMvc.perform(delete("/reserve/cancel/4"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
     @DisplayName("예약하기 API 성공")
     public void reservation() throws Exception {
         List<PerformanceInfo> performanceInfos = ticketSeller.getAllPerformanceInfoList();
         PerformanceInfo performanceInfo = performanceInfos.get(0);
-        ReserveInfo reserveInfo = ReserveInfo.builder()
-                .performanceId(performanceInfo.getPerformanceId())
-                .reservationName("유진호")
-                .reservationPhoneNumber("010-1234-1234")
-                .reservationStatus(performanceInfo.getIsReserve())
-                .amount(110000)
-                .round(1)
-                .line('A')
-                .seat(1)
-                .build();
+        ReserveInfo reserveInfo = this.getReserveInfo(performanceInfo);
         mockMvc.perform(post("/reserve/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(reserveInfo)))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    private ReserveInfo getReserveInfo(PerformanceInfo performanceInfo) {
+        return ReserveInfo.builder()
+                .performanceId(performanceInfo.getPerformanceId())
+                .reservationName("유진호")
+                .reservationPhoneNumber("010-1234-1234")
+                .reservationStatus(performanceInfo.getIsReserve())
+                .amount(200000)
+                .round(1)
+                .line('A')
+                .seat(2)
+                .build();
     }
 }

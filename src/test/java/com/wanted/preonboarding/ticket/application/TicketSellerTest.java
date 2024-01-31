@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TicketSellerTest {
     @Autowired
     private TicketSeller ticketSeller;
+    @Autowired
+    private TicketCancel ticketCancel;
 
     @Test
     @DisplayName("공연/전시 정보 목록 조회 성공")
@@ -44,10 +46,25 @@ public class TicketSellerTest {
     }
 
     @Test
+    @DisplayName("예약 취소 성공")
+    public void reserveCancel() {
+        List<PerformanceInfo> performanceInfos = ticketSeller.getAllPerformanceInfoList();
+        PerformanceInfo performanceInfo = performanceInfos.get(0);
+        boolean result = ticketCancel.reserveCancel(this.getReserveInfo(performanceInfo));
+        assertTrue(result);
+    }
+
+    @Test
     @DisplayName("예약 성공")
     public void reserve() {
-        PerformanceInfo performanceInfo = ticketSeller.getPerformanceInfoDetail("레베카");
-        boolean result = ticketSeller.reserve(ReserveInfo.builder()
+        List<PerformanceInfo> performanceInfos = ticketSeller.getAllPerformanceInfoList();
+        PerformanceInfo performanceInfo = performanceInfos.get(0);
+        boolean result = ticketSeller.reserve(this.getReserveInfo(performanceInfo));
+        assertTrue(result);
+    }
+
+    private ReserveInfo getReserveInfo(PerformanceInfo performanceInfo) {
+        return ReserveInfo.builder()
                 .performanceId(performanceInfo.getPerformanceId())
                 .reservationName("유진호")
                 .reservationPhoneNumber("010-1234-1234")
@@ -56,8 +73,6 @@ public class TicketSellerTest {
                 .round(1)
                 .line('A')
                 .seat(1)
-                .build()
-        );
-        assertTrue(result);
+                .build();
     }
 }

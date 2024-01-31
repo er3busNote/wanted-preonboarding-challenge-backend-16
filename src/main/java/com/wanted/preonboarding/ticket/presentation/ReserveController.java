@@ -1,6 +1,7 @@
 package com.wanted.preonboarding.ticket.presentation;
 
 import com.wanted.preonboarding.core.domain.response.ResponseHandler;
+import com.wanted.preonboarding.ticket.application.TicketCancel;
 import com.wanted.preonboarding.ticket.application.TicketSeller;
 import com.wanted.preonboarding.discount.domain.dto.CustomerInfo;
 import com.wanted.preonboarding.ticket.domain.dto.ReserveInfo;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReserveController {
     private final TicketSeller ticketSeller;
+    private final TicketCancel ticketCancel;
 
     @GetMapping("/detail")
     public ResponseEntity<ResponseHandler<List<ReserveInfo>>> getReserveInfoDetail(@Valid CustomerInfo customerInfo) {
@@ -27,6 +29,20 @@ public class ReserveController {
                         .message("Success")
                         .statusCode(HttpStatus.OK)
                         .data(ticketSeller.getReserveInfoDetail(customerInfo))
+                        .build()
+                );
+    }
+
+    @DeleteMapping("/cancel/{id}")
+    public ResponseEntity<ResponseHandler<Boolean>> reserveCancel(@PathVariable Integer id) {
+        System.out.println("reserveCancel");
+        boolean result = ticketCancel.reserveCancel(id);
+        return ResponseEntity
+                .ok()
+                .body(ResponseHandler.<Boolean>builder()
+                        .message("Success")
+                        .statusCode(HttpStatus.OK)
+                        .data(result)
                         .build()
                 );
     }
