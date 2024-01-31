@@ -1,6 +1,6 @@
 package com.wanted.preonboarding.ticket.application;
 
-import com.wanted.preonboarding.ticket.domain.dto.CustomerInfo;
+import com.wanted.preonboarding.discount.domain.dto.CustomerInfo;
 import com.wanted.preonboarding.ticket.domain.dto.PerformanceInfo;
 import com.wanted.preonboarding.ticket.domain.dto.ReserveInfo;
 import org.junit.jupiter.api.DisplayName;

@@ -2,7 +2,7 @@ package com.wanted.preonboarding.ticket.presentation;
 
 import com.wanted.preonboarding.core.domain.response.ResponseHandler;
 import com.wanted.preonboarding.ticket.application.TicketSeller;
-import com.wanted.preonboarding.ticket.domain.dto.CustomerInfo;
+import com.wanted.preonboarding.discount.domain.dto.CustomerInfo;
 import com.wanted.preonboarding.ticket.domain.dto.ReserveInfo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

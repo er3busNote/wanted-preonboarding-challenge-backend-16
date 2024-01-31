@@ -48,7 +48,7 @@ public class ReserveApiTest extends BaseApiTest {
                 .amount(110000)
                 .round(1)
                 .line('A')
-                .seat(4)
+                .seat(1)
                 .build();
         mockMvc.perform(post("/reserve/")
                         .contentType(MediaType.APPLICATION_JSON)
